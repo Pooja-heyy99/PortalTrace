@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Product - PortalTrace</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-logo">
+                <div class="navbar-logo-icon">◆</div>
+                <span>PortalTrace</span>
+            </div>
+            <div class="navbar-nav">
+                <a href="index.html">Register</a>
+                <a href="verify.html" class="active">Verify</a>
+                <button class="btn btn-primary btn-sm" id="connectWalletBtn">Connect Wallet</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Verify Product Authenticity</h1>
+            <p>Check any product's origin and ownership history on the blockchain</p>
+            <p style="font-size: 1rem; color: var(--text-muted);">
+                Enter a product ID or scan a QR code to instantly verify authenticity
+            </p>
+        </div>
+    </section>
+
+    <!-- Alerts Container -->
+    <div class="container">
+        <div id="alertContainer" style="margin-top: 2rem;"></div>
+    </div>
+
+    <!-- Verification Section -->
+    <section class="section">
+        <div class="container">
+            <div style="max-width: 600px; margin: 0 auto;">
+                <div class="card">
+                    <h3 style="text-align: center; margin-bottom: 2rem;">Enter Product ID</h3>
+
+                    <form id="verifyForm">
+                        <div class="form-group">
+                            <label class="form-label">Product ID</label>
+                            <input 
+                                type="number" 
+                                id="productId" 
+                                placeholder="e.g., 1"
+                                min="1"
+                                required
+                            >
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
+                                Enter the unique product ID to retrieve its blockchain record
+                            </p>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block btn-lg">
+                            Verify Product
+                        </button>
+                    </form>
+
+                    <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                        <h4 style="text-align: center; margin-bottom: 1rem;">📱 Scan QR Code</h4>
+                        <div style="text-align: center; color: var(--text-muted);">
+                            <p>
+                                In a real implementation, scanning a QR code would automatically 
+                                extract the product ID and verify it above.
+                            </p>
+                            <p style="font-size: 0.85rem; margin-top: 0.5rem;">
+                                (Demo mode simulates QR scanning - use the form above to test)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Details Section (Hidden until verified) -->
+    <section class="section" id="detailsSection" style="display: none;">
+        <div class="container">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <!-- Product Header -->
+                <div class="card" style="margin-bottom: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem;">
+                        <div>
+                            <h2 id="detailsName" style="margin-bottom: 0.5rem;">Loading...</h2>
+                            <p id="detailsId" style="color: var(--text-muted); font-size: 0.9rem;">Product ID: --</p>
+                        </div>
+                        <div id="verificationBadge" class="badge badge-verified">✓ Verified</div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.3rem;">
+                                MANUFACTURER
+                            </p>
+                            <p id="detailsManufacturer" style="font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">
+                                Loading...
+                            </p>
+                        </div>
+
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.3rem;">
+                                ORIGIN
+                            </p>
+                            <p id="detailsOrigin" style="font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">
+                                Loading...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QR Code Display -->
+                <div class="card" style="margin-bottom: 2rem; text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Product QR Code</h4>
+                    <div id="qrCodeContainer" class="qr-container">
+                        <canvas id="qrCode" class="qr-code"></canvas>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">
+                        Scan this code to instantly verify this product
+                    </p>
+                </div>
+
+                <!-- Metadata -->
+                <div class="card" style="margin-bottom: 2rem;">
+                    <h4 style="margin-bottom: 1rem;">📋 Metadata</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.3rem;">
+                                IPFS HASH
+                            </p>
+                            <p id="detailsIpfs" style="font-family: monospace; font-size: 0.85rem; word-break: break-all;">
+                                Qm...
+                            </p>
+                        </div>
+
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.3rem;">
+                                CURRENT OWNER
+                            </p>
+                            <p id="detailsOwner" style="font-family: monospace; font-size: 0.85rem; word-break: break-all;">
+                                0x...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Verification Status -->
+                <div class="card" style="margin-bottom: 2rem;">
+                    <h4 style="margin-bottom: 1rem;">✓ Verification Status</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">
+                                <span id="chainIcon">🔗</span>
+                            </div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                                On-Chain Record
+                            </p>
+                            <p style="font-weight: 600; color: #22c55e;">
+                                Confirmed
+                            </p>
+                        </div>
+
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">
+                                <span id="verifyIcon">✓</span>
+                            </div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                                Authenticity
+                            </p>
+                            <p id="verifyStatus" style="font-weight: 600; color: #22c55e;">
+                                Verified
+                            </p>
+                        </div>
+
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">
+                                🔐
+                            </div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                                Immutable
+                            </p>
+                            <p style="font-weight: 600; color: #22c55e;">
+                                Protected
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ownership History -->
+                <div class="card">
+                    <h4 style="margin-bottom: 1.5rem;">📜 Ownership History</h4>
+
+                    <div id="ownershipHistory">
+                        <div style="padding: 1rem; background: var(--bg-darker); border-radius: var(--radius-md); text-align: center; color: var(--text-muted);">
+                            <p>Loading ownership history...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-secondary btn-block" onclick="location.reload();" style="margin-top: 2rem;">
+                    Verify Another Product
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="featuresSection">
+        <div class="container">
+            <div class="section-title">
+                <h2>What Can You Verify?</h2>
+                <p class="section-subtitle">
+                    PortalTrace provides complete supply chain transparency
+                </p>
+            </div>
+
+            <div class="grid grid-3">
+                <div class="card">
+                    <h4 style="color: var(--primary); margin-bottom: 0.5rem;">🌍 Product Origin</h4>
+                    <p>
+                        Verify that products come from the claimed manufacturer and location, 
+                        preventing counterfeit goods from entering your supply chain.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--accent); margin-bottom: 0.5rem;">🔗 Ownership Chain</h4>
+                    <p>
+                        View the complete custody chain showing every party that has handled 
+                        the product, from manufacturer to current owner.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: #22c55e; margin-bottom: 0.5rem;">📋 Full Metadata</h4>
+                    <p>
+                        Access certificates, photos, testing results, and other documentation 
+                        stored via IPFS for complete transparency.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="
+        border-top: 1px solid var(--border-light); 
+        padding: 3rem 1.5rem; 
+        text-align: center; 
+        color: var(--text-muted);
+        margin-top: 4rem;
+    ">
+        <div class="container">
+            <p style="margin-bottom: 0.5rem;">
+                <strong>PortalTrace</strong> - Built for the Portaldot Mini Hackathon
+            </p>
+            <p style="font-size: 0.9rem;">
+                A Web3-native supply chain transparency solution powered by ink! and Portaldot
+            </p>
+            <p style="margin-top: 1.5rem; font-size: 0.85rem;">
+                © 2026 PortalTrace. Demo mode uses localStorage. 
+                <a href="index.html">Register Products</a> • 
+                <a href="https://portaldot.io" target="_blank">Portaldot</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- QR Code Library (Simple implementation) -->
+    <script>
+        // Simple QR Code generator library
+        // In production, use a library like qrcode.js
+        function generateSimpleQRCode(text, canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            
+            // For demo purposes, we'll create a visual representation
+            // In production, use: https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js
+            const ctx = canvas.getContext('2d');
+            
+            // Create a simple checkered pattern with the text embedded
+            const size = 300;
+            canvas.width = size;
+            canvas.height = size;
+            
+            // Background
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Create a hash of the text for pattern generation
+            let hash = 0;
+            for (let i = 0; i < text.length; i++) {
+                const char = text.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            
+            // Draw pseudo-random QR pattern
+            const cellSize = 10;
+            for (let y = 0; y < size; y += cellSize) {
+                for (let x = 0; x < size; x += cellSize) {
+                    const xHash = (hash + x) * 73856093;
+                    const yHash = (hash + y) * 19349663;
+                    const zHash = (hash) * 83492791;
+                    const n = Math.abs(xHash ^ yHash ^ zHash) % 2;
+                    
+                    ctx.fillStyle = n === 0 ? '#000000' : '#FFFFFF';
+                    ctx.fillRect(x, y, cellSize, cellSize);
+                }
+            }
+            
+            // Add text at bottom
+            ctx.fillStyle = '#000000';
+            ctx.font = 'bold 12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Product ID: ' + text, size / 2, size - 5);
+        }
+    </script>
+
+    <!-- Script -->
+    <script src="app.js"></script>
+</body>
+</html>
