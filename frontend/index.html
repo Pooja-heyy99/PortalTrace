@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PortalTrace - Supply Chain Transparency dApp</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-logo">
+                <div class="navbar-logo-icon">◆</div>
+                <span>PortalTrace</span>
+            </div>
+            <div class="navbar-nav">
+                <a href="index.html" class="active">Register</a>
+                <a href="verify.html">Verify</a>
+                <button class="btn btn-primary btn-sm" id="connectWalletBtn">Connect Wallet</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>PortalTrace</h1>
+            <p>Transparent, Secure, On-Chain Supply Chain Management</p>
+            <p style="font-size: 1rem; color: var(--text-muted);">
+                Register product batches, transfer ownership, and verify authenticity using blockchain-powered transparency
+            </p>
+            <p style="font-size: 0.9rem; color: var(--accent); margin-top: 0.75rem;">
+                Live mode is wired for <strong>Portaldot</strong> and the <strong>POT</strong> gas token through `frontend/config.js`.
+            </p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary btn-lg" onclick="document.getElementById('registerSection').scrollIntoView({ behavior: 'smooth' })">
+                    Register Product
+                </button>
+                <a href="verify.html" class="btn btn-outline btn-lg">
+                    Verify Authenticity
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alerts Container -->
+    <div class="container">
+        <div id="alertContainer" style="margin-top: 2rem;"></div>
+    </div>
+
+    <!-- Registration Section -->
+    <section class="section" id="registerSection">
+        <div class="container">
+            <div class="section-title">
+                <h2>Register Product Batch</h2>
+                <p class="section-subtitle">
+                    Create an immutable on-chain record of your product's origin and authenticity
+                </p>
+            </div>
+
+            <div style="max-width: 600px; margin: 0 auto;">
+                <div class="card">
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label class="form-label">Product Name</label>
+                            <input 
+                                type="text" 
+                                id="productName" 
+                                placeholder="e.g., Organic Coffee Beans"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Manufacturer</label>
+                                <input 
+                                    type="text" 
+                                    id="manufacturer" 
+                                    placeholder="e.g., Fair Trade Co."
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Origin</label>
+                                <input 
+                                    type="text" 
+                                    id="origin" 
+                                    placeholder="e.g., Ethiopia, Addis Ababa"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">IPFS Hash (Optional)</label>
+                            <input 
+                                type="text" 
+                                id="ipfsHash" 
+                                placeholder="e.g., QmXxxx..."
+                            >
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
+                                Leave blank to auto-generate. Contains metadata like certificates, photos, etc.
+                            </p>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Register on Blockchain
+                        </button>
+
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem; text-align: center;">
+                            💡 <strong>Demo Mode:</strong> Data is saved locally for demonstration. 
+                            Connect a wallet to use the live Portaldot blockchain.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Products Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Recent Products</h2>
+                <p class="section-subtitle">
+                    Latest registered product batches on the blockchain
+                </p>
+            </div>
+
+            <div id="productsContainer" class="products-grid">
+                <div style="text-align: center; color: var(--text-muted); grid-column: 1/-1;">
+                    <p>No products registered yet. Be the first to register!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why PortalTrace?</h2>
+                <p class="section-subtitle">
+                    Built for modern supply chains with Web3 transparency
+                </p>
+            </div>
+
+            <div class="grid grid-3">
+                <div class="card">
+                    <h4 style="color: var(--primary); margin-bottom: 0.5rem;">🔐 Immutable Records</h4>
+                    <p>
+                        Every product registration is permanently stored on the blockchain, 
+                        creating an tamper-proof audit trail.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--accent); margin-bottom: 0.5rem;">🌐 Full Transparency</h4>
+                    <p>
+                        Track ownership changes and verify product authenticity instantly 
+                        using QR codes and blockchain verification.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: #22c55e; margin-bottom: 0.5rem;">⚡ Instant Transfers</h4>
+                    <p>
+                        Transfer product ownership between parties with guaranteed 
+                        accountability and clear chain of custody.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: #8b5cf6; margin-bottom: 0.5rem;">🎯 Easy Integration</h4>
+                    <p>
+                        Simple API and QR code generation make it easy to integrate 
+                        PortalTrace into existing supply chain systems.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: #06b6d4; margin-bottom: 0.5rem;">🌍 Portaldot Powered</h4>
+                    <p>
+                        Built on Portaldot's scalable, eco-friendly infrastructure 
+                        for sustainable supply chains.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: #fb923c; margin-bottom: 0.5rem;">📱 Mobile Friendly</h4>
+                    <p>
+                        Access PortalTrace from any device. Scan QR codes to instantly 
+                        verify product authenticity on the go.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>How It Works</h2>
+            </div>
+
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="card" style="margin-bottom: 2rem;">
+                    <h4 style="color: var(--primary);">Step 1: Register</h4>
+                    <p>
+                        Submit product details (name, manufacturer, origin, IPFS metadata). 
+                        The contract generates a unique product ID and stores it on-chain.
+                    </p>
+                </div>
+
+                <div class="card" style="margin-bottom: 2rem;">
+                    <h4 style="color: var(--accent);">Step 2: Transfer</h4>
+                    <p>
+                        As products move through the supply chain, authorized parties can 
+                        transfer ownership, maintaining a permanent record of custody.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: #22c55e;">Step 3: Verify</h4>
+                    <p>
+                        End consumers and retailers can scan a QR code or enter the product ID 
+                        to instantly verify authenticity and view the complete ownership history.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="
+        border-top: 1px solid var(--border-light); 
+        padding: 3rem 1.5rem; 
+        text-align: center; 
+        color: var(--text-muted);
+        margin-top: 4rem;
+    ">
+        <div class="container">
+            <p style="margin-bottom: 0.5rem;">
+                <strong>PortalTrace</strong> - Built for the Portaldot Mini Hackathon
+            </p>
+            <p style="font-size: 0.9rem;">
+                A Web3-native supply chain transparency solution powered by ink! and Portaldot
+            </p>
+            <p style="margin-top: 1.5rem; font-size: 0.85rem;">
+                © 2026 PortalTrace. Demo mode uses localStorage. 
+                <a href="verify.html">Verify Products</a> • 
+                <a href="https://portaldot.io" target="_blank">Portaldot</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <!-- Script -->
+    <script src="app.js"></script>
+</body>
+</html>

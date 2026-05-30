@@ -1,0 +1,28 @@
+[package]
+name = "portaltrace"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+ink = { version = "5.0", default-features = false, features = ["std"] }
+scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
+scale-info = { version = "2.6", default-features = false, features = ["derive"], optional = true }
+
+[lib]
+name = "portaltrace"
+path = "lib.rs"
+
+[features]
+default = ["std"]
+std = [
+    "ink/std",
+    "scale/std",
+    "scale-info/std",
+]
+
+# This is needed for the wasm target
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
