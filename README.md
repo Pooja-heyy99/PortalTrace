@@ -136,6 +136,16 @@ cargo contract build --release
 # (requires POT token access - see Deployment section)
 ```
 
+### Live Portaldot Setup
+
+To switch the app from demo mode to a real on-chain flow, update these files in GitHub:
+- `frontend/config.js` for the RPC endpoint, deployed contract address, metadata path, and POT token branding.
+- `frontend/app.js` for the wallet and contract transaction logic.
+- `contracts/portaltrace/lib.rs` for the ink! contract model and on-chain behavior.
+- `frontend/index.html` and `frontend/verify.html` for the shared config loader.
+
+The frontend expects a generated contract metadata file at `frontend/assets/portaltrace.contract.json` when live mode is enabled.
+
 ---
 
 ## 📋 Project Structure
